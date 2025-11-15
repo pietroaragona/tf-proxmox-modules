@@ -21,6 +21,12 @@ variable "tags" {
   default     = "tf-managed"
 }
 
+variable "vm_state" {
+  description = "The desired state of the VM (e.g., 'started', 'stopped')"
+  type        = string
+  default     = "started"
+}
+
 #Establish which Proxmox host you'd like to spin a VM up on
 variable "proxmox_host" {
   description = "The Proxmox host to deploy the VM on"

@@ -3,6 +3,7 @@ resource "proxmox_vm_qemu" "vm" {
   name        = var.vm_name
   target_node = var.proxmox_host
   tags        = var.tags
+  vm_state    = var.vm_state
 
   clone = var.template_name
 
