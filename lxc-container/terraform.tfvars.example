@@ -1,0 +1,18 @@
+vmid         = 171
+target_node  = "pve"
+hostname     = "lxc-debian"
+ostemplate   = "local:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
+password     = "ansible"
+unprivileged = true
+
+memory = 768
+start  = true
+
+rootfs_storage = "local-lvm"
+rootfs_size    = "4G"
+
+network_name   = "eth0"
+network_bridge = "vmbr0"
+network_ip     = "dhcp"
+
+tags = "lxc-container;tf-managed"
