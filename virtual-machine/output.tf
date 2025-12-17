@@ -7,3 +7,8 @@ output "username" {
   description = "The default username for the virtual machine."
   value = proxmox_vm_qemu.vm.ciuser
 }
+
+output "name" {
+  description = "The name of the virtual machine."
+  value = proxmox_vm_qemu.vm.name
+}
