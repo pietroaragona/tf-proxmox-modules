@@ -27,6 +27,12 @@ variable "vm_state" {
   default     = "started"
 }
 
+variable "force_create" {
+  description = "If true and VM with same name/vmid exists, force creation/recycle behavior in provider."
+  type        = bool
+  default     = false
+}
+
 #Establish which Proxmox host you'd like to spin a VM up on
 variable "proxmox_host" {
   description = "The Proxmox host to deploy the VM on"
@@ -163,6 +169,64 @@ variable "cloudinit_storage" {
   description = "Storage for the cloud-init disk."
   type        = string
   default     = "local-lvm"
+}
+
+variable "extra_disks" {
+  description = <<-EOT
+    Additional SCSI disks to attach to the VM.
+    Example:
+    [
+      {
+        slot    = "scsi1"
+        storage = "local-lvm"
+        size    = "10G"
+      }
+    ]
+  EOT
+
+  type = list(object({
+    slot    = string
+    storage = string
+    size    = string
+  }))
+
+  default = []
+
+  validation {
+    condition = alltrue([
+      for disk in var.extra_disks : can(regex("^(ide[0-3]|sata[0-5]|scsi([1-9]|[1-2][0-9]|30)|virtio([0-9]|1[0-5]))$", disk.slot))
+    ])
+    error_message = "Each extra disk slot must be a valid non-reserved slot, for example scsi1, scsi2, sata0 or virtio1. Reserved slots ide1 and scsi0 cannot be used."
+  }
+
+  validation {
+    condition     = length(distinct([for disk in var.extra_disks : disk.slot])) == length(var.extra_disks)
+    error_message = "Each extra disk must use a unique slot."
+  }
+}
+
+variable "extra_disk_cache" {
+  description = "Cache mode to use for extra disks."
+  type        = string
+  default     = "none"
+}
+
+variable "extra_disk_iothread" {
+  description = "Whether to enable iothread for extra disks."
+  type        = bool
+  default     = true
+}
+
+variable "extra_disk_discard" {
+  description = "Whether to enable discard for extra disks."
+  type        = bool
+  default     = false
+}
+
+variable "extra_disk_emulatessd" {
+  description = "Whether to expose extra disks as SSDs."
+  type        = bool
+  default     = false
 }
 
 variable "network_id" {
