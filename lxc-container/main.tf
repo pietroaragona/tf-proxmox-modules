@@ -14,6 +14,8 @@ resource "proxmox_lxc" "lxc-container" {
 
   features {
     nesting = var.nesting
+    mount = var.features_mount
+    fuse = var.features_fuse
   }
 
   ssh_public_keys = var.ssh_public_keys

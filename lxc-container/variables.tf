@@ -95,3 +95,15 @@ variable "nesting" {
   type        = bool
   default     = true
 }
+
+variable "features_mount" {
+  description = "Enable mount feature (required for bind mounts)"
+  type        = string
+  default     = ""
+}
+
+variable "features_fuse" {
+  description = "Enable fuse feature (required for some applications)"
+  type        = bool
+  default     = false
+}
