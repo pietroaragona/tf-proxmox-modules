@@ -5,8 +5,9 @@ locals {
 }
 
 resource "proxmox_vm_qemu" "vm" {
-  vmid        = var.vmid
-  name        = var.vm_name
+  count       = var.vm_count
+  vmid        = var.vmid + count.index
+  name        = var.vm_count == 1 ? var.vm_name : format("%s-%02d", var.vm_name, count.index + 1)
   target_node = var.proxmox_host
   tags        = var.tags
   vm_state    = var.vm_state

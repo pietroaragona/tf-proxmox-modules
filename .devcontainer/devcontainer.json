@@ -1,0 +1,50 @@
+{
+  "name": "tf-proxmox-modules",
+  "image": "mcr.microsoft.com/devcontainers/base:debian",
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "configureZshAsDefaultShell": false,
+      "username": "vscode"
+    },
+    "ghcr.io/devcontainers/features/terraform:1": {
+      "tflint": "latest",
+      "installTFsec": false,
+      "installTerraformDocs": true
+    },
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "remoteUser": "vscode",
+  "containerUser": "vscode",
+  "updateRemoteUserUID": true,
+  "remoteEnv": {
+    "PM_API_TOKEN_ID": "${localEnv:PM_API_TOKEN_ID}",
+    "PM_API_TOKEN_SECRET": "${localEnv:PM_API_TOKEN_SECRET}",
+    "TF_VAR_pm_api_url": "${localEnv:TF_VAR_pm_api_url}"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "editorconfig.editorconfig",
+        "hashicorp.terraform",
+        "ms-azuretools.vscode-docker"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+          "bash": { "path": "/bin/bash" }
+        },
+        "editor.fontFamily": "'FiraCode Nerd Font', 'FiraCode Nerd Font Mono', monospace",
+        "editor.fontLigatures": true,
+        "terminal.integrated.fontFamily": "'FiraCode Nerd Font Mono'",
+        "[terraform]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        },
+        "[terraform-vars]": {
+          "editor.defaultFormatter": "hashicorp.terraform",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  }
+}
