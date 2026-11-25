@@ -57,7 +57,14 @@ variable "nic_name" {
 
 # Number of VMs to spin up
 variable "vm_count" {
-  default = 1
+  description = "Number of VMs to create."
+  type        = number
+  default     = 1
+
+  validation {
+    condition     = var.vm_count >= 1
+    error_message = "vm_count must be at least 1."
+  }
 }
 
 # Needed for remote exec
